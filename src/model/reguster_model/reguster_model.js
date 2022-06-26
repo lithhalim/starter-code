@@ -2,7 +2,7 @@ const {DataTypes}=require("sequelize")
 const database=require("../../database/database")
 
 
-module.exports = database.define('reguster', {
+const reguster = database.define('regusters', {
     // Model attributes are defined here
     username: {
       type: DataTypes.STRING,//String Varchar(255)
@@ -33,22 +33,20 @@ module.exports = database.define('reguster', {
     refreshtoken: {
       type: DataTypes.TEXT,
     },
-    role:{//ENUM MEAN YOU NEED TO SELECT ON OF THISE JUST YOU CANT INSERT ANOTHER TYPE
-      type:DataTypes.ENUM('admin','writer','editor','user'),
-      defaultValue:"user",
-    },
-    action:{ 
-      type: DataTypes.VIRTUAL,
-      get(){
-        const acl={
-          user:['read'],
-          writer:['read','create'],
-          editor:['read','create','update'],
-          admin:['read','create','update']
-        }
-        return acl[this.role];
-      }
-    }
   }, {
     // Other model options go here
   });
+
+
+const postes=require("../post-model/post-model");
+  //Relation for postes
+  reguster.hasMany(postes,{
+    foreignKey:"posteId",
+    sourceKey:"id"
+  })
+  postes.belongsTo(reguster,{
+    foreignKey:"posteId",
+    targetKey:"id"
+  })
+  
+  module.exports =reguster

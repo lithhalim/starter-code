@@ -43,8 +43,8 @@ app.use(authntication_routes)
 
 
 
-
-
+const poste_routes=require("../routes/postes-routes/postes-rout")
+app.use(poste_routes)
 
 
 
@@ -66,12 +66,13 @@ app.use(NotFound404);
 
 //Connection With The Database
 const database=require("../database/database");
+const { post } = require('../routes/authntication_routes/authntication_routes');
 async function start(PORT){// WHE MUST RUN DATABASE CONNECTION BEFORE LISTEN TO SERVER
   server.listen(PORT, async() => {
         try {
             await database.authenticate();
             //USE TO SYNC ANY CHANGE CAN HAPPEN  ON DATABASE 
-            await database.sync();
+            await database.sync({alter:true});
             console.log('Connection has been established successfully.');
           } catch (error) {
             console.error('Unable to connect to the database:', error);

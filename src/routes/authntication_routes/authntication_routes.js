@@ -15,8 +15,6 @@ const bearer_auth=require("../../middelware/authintication/barear_auth")
 //ALL ROUTES ARE USED
 router.post("/signin",basic_auth,signin_controllers)
 router.post("/signup",signup_controllers)
-router.get("/allUser",bearer_auth,allUser_controllers)
-
-
+router.get("/allUser",allUser_controllers)
 
 module.exports=router
